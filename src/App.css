@@ -1,0 +1,29 @@
+.container {
+  margin: 20px auto;
+  padding: 50px;
+  max-width: 1000px;
+  background-color: #0b1933;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Adjust the column width as needed */
+  grid-gap: 20px; /* Adjust the gap between grid items */
+}
+
+.item {
+  padding: 5px;
+  background-color: #ffffff; /* Adjust the background color as needed */
+  border-radius: 8px;
+  max-width: 10000px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+h3 {
+  font-size: 18px;
+  color: #333;
+}
+
+p {
+  font-size: 16px;
+  color: #666;
+}
