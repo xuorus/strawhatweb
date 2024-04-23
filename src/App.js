@@ -4,6 +4,7 @@ import { db } from './firebaseConfig';
 import { push, ref, set } from 'firebase/database';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSave, faCalculator, faPlus } from '@fortawesome/free-solid-svg-icons';
+import Swal from 'sweetalert2'; // Import SweetAlert
 import './App.css';
 
 const App = () => {
@@ -34,7 +35,7 @@ const App = () => {
 
   const addGrade = () => {
     if (course.trim() === '' || grade.trim() === '') {
-      alert('Please enter both course and grade.');
+      Swal.fire('Error', 'Please enter both course and grade.', 'error'); // SweetAlert
       return;
     }
 
@@ -56,7 +57,7 @@ const App = () => {
     };
   
     set(newGradeRef, dataToSave);
-    alert('Data saved successfully!');
+    Swal.fire('Success', 'Data saved successfully!', 'success'); // SweetAlert
     setTotalCredits(0);
     setTotalGradePoints(0);
     setGpa(0);
@@ -64,7 +65,7 @@ const App = () => {
   
   const calculateGPA = () => {
     if (grades.length === 0) {
-      alert('Please add at least one grade.');
+      Swal.fire('Error', 'Please add at least one grade.', 'error'); // SweetAlert
       return;
     }
 
@@ -108,7 +109,7 @@ const App = () => {
   const handleGradeChange = (e) => {
     const value = e.target.value;
     if (isNaN(value)) {
-      alert('Invalid Input');
+      Swal.fire('Error', 'Invalid Input', 'error'); // SweetAlert
       e.target.style.borderColor = 'red';
     } else {
       e.target.style.borderColor = ''; // Reset border color
