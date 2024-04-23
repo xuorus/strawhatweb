@@ -43,3 +43,11 @@ button {
 button:hover {
   background-color: #0056b3;
 }
+
+h1 {
+  text-align: center; /* Center the text */
+}
+
+h2 {
+  text-align: center; /* Center the text */
+}
