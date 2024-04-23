@@ -1,27 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from 'react-bootstrap';
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/database';
+import { db } from './firebaseConfig';
+import { push, ref, set } from 'firebase/database';
 import './App.css';
-
-// Firebase configuration...
-const firebaseConfig = {
-  apiKey: "AIzaSyCVu6OtQSlnJzRI6gcDnlnj3QbWX6BY01U",
-  authDomain: "strawhatcoders-c1028.firebaseapp.com",
-  databaseURL: "https://strawhatcoders-c1028-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "strawhatcoders-c1028",
-  storageBucket: "strawhatcoders-c1028.appspot.com",
-  messagingSenderId: "1073430107906",
-  appId: "1:1073430107906:web:e23a1a7ebe272b1936941b",
-  measurementId: "G-J5RHT0X7F4"
-};
-
-// Initialize Firebase...
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-}
-
-const db = firebase.database();
 
 const App = () => {
   const [grades, setGrades] = useState([]);
@@ -62,8 +43,20 @@ const App = () => {
   };
 
   const saveData = () => {
-    const newDataRef = db.ref('grades').push();
-    newDataRef.set(grades);
+    const newDataRef = ref(db, 'grades');
+    const newGradeRef = push(newDataRef);
+    
+    // Include the latest grade and course along with GPA, Dean's List, and Remarks
+    const latestGrade = grades[grades.length - 1]; // Get the latest grade added
+    const dataToSave = { 
+      course: latestGrade.course, 
+      grade: latestGrade.grade, 
+      gpa, 
+      deansList, 
+      remarks 
+    };
+    
+    set(newGradeRef, dataToSave);
     alert('Data saved successfully!');
     setTotalCredits(0);
     setTotalGradePoints(0);
