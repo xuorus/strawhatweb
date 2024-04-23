@@ -1,34 +1,44 @@
 .container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
+  margin: 20px auto;
+  padding: 20px;
+  border: 2px solid #000000;
+  border-radius: 5px;
+  max-width: 600px;
 }
 
-.item {
-  padding: 5px;
-  background-color: #ffffff;
-  border-radius: 8px;
-  max-width: 10000px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+.input-container {
+  margin-bottom: 10px;
 }
 
-h3 {
-  font-size: 18px;
-  color: #ffffff;
+.input-container label {
+  margin-right: 10px;
 }
 
-p {
-  font-size: 16px;
-  color: #666;
+.grades-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.grades-table th, .grades-table td {
+  border: 1px solid #ccc;
+  padding: 8px;
+}
+
+.grades-table th {
+  background-color: #f2f2f2;
+  text-align: left;
 }
 
 button {
-  margin: 5px; /* Add margin to create spaces around buttons */
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
-input[type="text"] {
-  width: 200px; /* Set the width of input containers */
-  box-sizing: border-box; /* Ensure the width includes padding and border */
+button:hover {
+  background-color: #0056b3;
 }

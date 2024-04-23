@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Button } from 'react-bootstrap';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/database';
 import './App.css';
@@ -61,9 +62,9 @@ const App = () => {
   };
 
   const saveData = () => {
-    db.ref('grades').set(grades);
+    const newDataRef = db.ref('grades').push();
+    newDataRef.set(grades);
     alert('Data saved successfully!');
-    // Clear calculated data
     setTotalCredits(0);
     setTotalGradePoints(0);
     setGpa(0);
@@ -123,9 +124,8 @@ const App = () => {
         <label>Grade: </label>
         <input type="text" value={grade} onChange={(e) => setGrade(e.target.value)} />
       </div>
-      <button onClick={addGrade}>Add Grade</button>
-      <button onClick={saveData}>Save Data</button>
-      <button onClick={fetchData}>Retrieve Data</button>
+      <Button onClick={addGrade} variant="primary">Add Grade</Button>{''}
+      <Button onClick={saveData} variant="success">Save Grade</Button>{''}
       <hr />
       <table>
         <thead>
