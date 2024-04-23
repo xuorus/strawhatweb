@@ -3,7 +3,7 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/database';
 import './App.css';
 
-// Firebase configuration
+// Firebase configuration...
 const firebaseConfig = {
   apiKey: "AIzaSyCVu6OtQSlnJzRI6gcDnlnj3QbWX6BY01U",
   authDomain: "strawhatcoders-c1028.firebaseapp.com",
@@ -15,7 +15,7 @@ const firebaseConfig = {
   measurementId: "G-J5RHT0X7F4"
 };
 
-// Initialize Firebase
+// Initialize Firebase...
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
@@ -29,6 +29,8 @@ const App = () => {
   const [totalCredits, setTotalCredits] = useState(0);
   const [totalGradePoints, setTotalGradePoints] = useState(0);
   const [gpa, setGpa] = useState(0);
+  const [deansList, setDeansList] = useState('');
+  const [remarks, setRemarks] = useState('');
 
   useEffect(() => {
     fetchData();
@@ -61,6 +63,10 @@ const App = () => {
   const saveData = () => {
     db.ref('grades').set(grades);
     alert('Data saved successfully!');
+    // Clear calculated data
+    setTotalCredits(0);
+    setTotalGradePoints(0);
+    setGpa(0);
   };
 
   const calculateGPA = () => {
@@ -86,24 +92,41 @@ const App = () => {
     setTotalCredits(totalCredits);
     setTotalGradePoints(totalGradePoints);
     setGpa(gpa.toFixed(2));
+
+    // Determine Dean's List status
+    if (gpa >= 1.0 && gpa <= 1.75) {
+      setDeansList('Yes');
+    } else {
+      setDeansList('No');
+    }
+
+    // Determine Remarks
+    if (gpa >= 1.0 && gpa <= 3.0) {
+      setRemarks('Passed');
+    } else {
+      setRemarks('Failed');
+    }
+
+    // Filter out grades that have been used for GPA calculation
+    const filteredGrades = grades.filter((grade) => parseFloat(grade.grade) === 0);
+    setGrades(filteredGrades);
   };
 
   return (
     <div className="container">
       <h1>Student Grade Average Calculator</h1>
       <div>
-        <label>Course:</label>
+        <label>Course: </label>
         <input type="text" value={course} onChange={(e) => setCourse(e.target.value)} />
       </div>
       <div>
-        <label>Grade:</label>
+        <label>Grade: </label>
         <input type="text" value={grade} onChange={(e) => setGrade(e.target.value)} />
       </div>
       <button onClick={addGrade}>Add Grade</button>
       <button onClick={saveData}>Save Data</button>
       <button onClick={fetchData}>Retrieve Data</button>
       <hr />
-      <h2>Grades</h2>
       <table>
         <thead>
           <tr>
@@ -127,6 +150,8 @@ const App = () => {
           <h2>GPA: {gpa}</h2>
           <p>Total Credits: {totalCredits}</p>
           <p>Total Grade Points: {totalGradePoints}</p>
+          <p>Dean's List: {deansList}</p>
+          <p>Remarks: {remarks}</p>
         </div>
       )}
     </div>
