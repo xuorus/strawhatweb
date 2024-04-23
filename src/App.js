@@ -46,11 +46,11 @@ const App = () => {
     const newDataRef = ref(db, 'grades');
     const newGradeRef = push(newDataRef);
     
-    // Include the latest grade and course along with GPA, Dean's List, and Remarks
-    const latestGrade = grades[grades.length - 1]; // Get the latest grade added
+    // Include course, grade, GPA, Dean's List, and Remarks along with grades
     const dataToSave = { 
-      course: latestGrade.course, 
-      grade: latestGrade.grade, 
+      grades, 
+      course, 
+      grade, 
       gpa, 
       deansList, 
       remarks 
@@ -62,7 +62,7 @@ const App = () => {
     setTotalGradePoints(0);
     setGpa(0);
   };
-
+  
   const calculateGPA = () => {
     if (grades.length === 0) {
       alert('Please add at least one grade.');
