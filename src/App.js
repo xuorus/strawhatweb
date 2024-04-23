@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Button } from 'react-bootstrap';
 import { db } from './firebaseConfig';
 import { push, ref, set } from 'firebase/database';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSave, faCalculator, faPlus } from '@fortawesome/free-solid-svg-icons';
 import './App.css';
 
 const App = () => {
@@ -60,8 +62,6 @@ const App = () => {
     setGpa(0);
   };
   
-  
-  
   const calculateGPA = () => {
     if (grades.length === 0) {
       alert('Please add at least one grade.');
@@ -105,6 +105,17 @@ const App = () => {
     setGrades(filteredGrades);
   };
 
+  const handleGradeChange = (e) => {
+    const value = e.target.value;
+    if (isNaN(value)) {
+      alert('Invalid Input');
+      e.target.style.borderColor = 'red';
+    } else {
+      e.target.style.borderColor = ''; // Reset border color
+      setGrade(value);
+    }
+  };
+
   return (
     <div className="container">
       <h1>Student Grade Average Calculator</h1>
@@ -114,10 +125,14 @@ const App = () => {
       </div>
       <div>
         <label>Grade: </label>
-        <input type="text" value={grade} onChange={(e) => setGrade(e.target.value)} />
+        <input type="text" value={grade} onChange={handleGradeChange} />
       </div>
-      <Button onClick={addGrade} variant="primary">Add Grade</Button>{''}
-      <Button onClick={saveData} variant="success">Save Grade</Button>{''}
+      <Button onClick={addGrade} variant="primary">
+        <FontAwesomeIcon icon={faPlus} /> Add Grade
+      </Button>{''}
+      <Button onClick={saveData} variant="success">
+        <FontAwesomeIcon icon={faSave} /> Save Grade
+      </Button>{''}
       <hr />
       <table>
         <thead>
@@ -136,7 +151,9 @@ const App = () => {
         </tbody>
       </table>
       <hr />
-      <button onClick={calculateGPA}>Calculate GPA</button>
+      <button onClick={calculateGPA}>
+        <FontAwesomeIcon icon={faCalculator} /> Calculate GPA
+      </button>
       {gpa !== 0 && (
         <div>
           <h2>GPA: {gpa}</h2>
