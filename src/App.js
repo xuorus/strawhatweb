@@ -45,23 +45,22 @@ const App = () => {
   const saveData = () => {
     const newDataRef = ref(db, 'grades');
     const newGradeRef = push(newDataRef);
-    
-    // Include course, grade, GPA, Dean's List, and Remarks along with grades
-    const dataToSave = { 
-      grades, 
-      course, 
-      grade, 
-      gpa, 
-      deansList, 
-      remarks 
+  
+    const dataToSave = {
+      grades,
+      gpa,
+      deansList,
+      remarks,
     };
-    
+  
     set(newGradeRef, dataToSave);
     alert('Data saved successfully!');
     setTotalCredits(0);
     setTotalGradePoints(0);
     setGpa(0);
   };
+  
+  
   
   const calculateGPA = () => {
     if (grades.length === 0) {
@@ -73,7 +72,7 @@ const App = () => {
     let totalGradePoints = 0;
 
     grades.forEach((grade) => {
-      const credit = 3; // Assuming each course has 3 credits
+      const credit = 3; 
       const gradePoint = parseFloat(grade.grade);
 
       if (!isNaN(gradePoint)) {
