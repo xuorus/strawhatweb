@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Dropdown, DropdownButton } from 'react-bootstrap';
+import { Button, Dropdown, DropdownButton, DropdownItem } from 'react-bootstrap';
 import { db } from './firebaseConfig';
 import { push, ref, set } from 'firebase/database';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -19,6 +19,21 @@ const App = () => {
   const [gpa, setGpa] = useState(0);
   const [deansList, setDeansList] = useState('');
   const [remarks, setRemarks] = useState('');
+  const [dropdown1Title, setDropdown1Title] = useState('Dropdown 1');
+  const [dropdown2Title, setDropdown2Title] = useState('Dropdown 2');
+  const [dropdown3Title, setDropdown3Title] = useState('Dropdown 3');
+
+  const handleDropdown1Click = (title) => {
+    setDropdown1Title(title);
+  };
+
+  const handleDropdown2Click = (title) => {
+    setDropdown2Title(title);
+  };
+
+  const handleDropdown3Click = (title) => {
+    setDropdown3Title(title);
+  };
 
   useEffect(() => {
     fetchData();
@@ -125,28 +140,27 @@ const App = () => {
 
   return (
     <div className="container">
-      <h1 style = {{color: 'white'}}>Student Grade Average Calculator</h1>
-      <img
-        src={logo}
-        alt="Logo"
-        className="logo" style ={{width: 'auto', height: 'auto'}}
-      />
-      <div className="dropdown-container">
-        <DropdownButton id="dropdown-basic-button" title="Dropdown 1">
-          <Dropdown.Item href="#/action-1">Action 1</Dropdown.Item>
-          <Dropdown.Item href="#/action-2">Action 2</Dropdown.Item>
-          <Dropdown.Item href="#/action-3">Action 3</Dropdown.Item>
-        </DropdownButton>
-        <DropdownButton id="dropdown-basic-button" title="Dropdown 2">
-          <Dropdown.Item href="#/action-1">Action 1</Dropdown.Item>
-          <Dropdown.Item href="#/action-2">Action 2</Dropdown.Item>
-          <Dropdown.Item href="#/action-3">Action 3</Dropdown.Item>
-        </DropdownButton>
-        <DropdownButton id="dropdown-basic-button" title="Dropdown 3">
-          <Dropdown.Item href="#/action-1">Action 1</Dropdown.Item>
-          <Dropdown.Item href="#/action-2">Action 2</Dropdown.Item>
-          <Dropdown.Item href="#/action-3">Action 3</Dropdown.Item>
-        </DropdownButton>
+    <div className="header">
+      <h1 style={{ color: 'white' }}>Student Grade Average Calculator</h1>
+      <img src={logo} alt="Logo" className="logo" />
+    </div>
+    <div className="dropdown-container">
+    <DropdownButton id="dropdown1" title={dropdown1Title} className="dropdown-button">
+  <Dropdown.Item onClick={() => handleDropdown1Click('Action 1')}>Action 1</Dropdown.Item>
+  <Dropdown.Item onClick={() => handleDropdown1Click('Action 2')}>Action 2</Dropdown.Item>
+  <Dropdown.Item onClick={() => handleDropdown1Click('Action 3')}>Action 3</Dropdown.Item>
+</DropdownButton>
+<DropdownButton id="dropdown2" title={dropdown2Title} className="dropdown-button">
+  <Dropdown.Item onClick={() => handleDropdown2Click('Option 1')}>Option 1</Dropdown.Item>
+  <Dropdown.Item onClick={() => handleDropdown2Click('Option 2')}>Option 2</Dropdown.Item>
+  <Dropdown.Item onClick={() => handleDropdown2Click('Option 3')}>Option 3</Dropdown.Item>
+</DropdownButton>
+<DropdownButton id="dropdown3" title={dropdown3Title} className="dropdown-button">
+  <Dropdown.Item onClick={() => handleDropdown3Click('Choice 1')}>Choice 1</Dropdown.Item>
+  <Dropdown.Item onClick={() => handleDropdown3Click('Choice 2')}>Choice 2</Dropdown.Item>
+  <Dropdown.Item onClick={() => handleDropdown3Click('Choice 3')}>Choice 3</Dropdown.Item>
+</DropdownButton>
+
       </div>
       <div className="input-columns">
         <div className="column">
