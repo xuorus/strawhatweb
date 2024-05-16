@@ -19,6 +19,8 @@ const App = () => {
   const [gpa, setGpa] = useState(0);
   const [deansList, setDeansList] = useState('');
   const [remarks, setRemarks] = useState('');
+
+
   const [dropdown1Title, setDropdown1Title] = useState('Dropdown 1');
   const [dropdown2Title, setDropdown2Title] = useState('Dropdown 2');
   const [dropdown3Title, setDropdown3Title] = useState('Dropdown 3');
@@ -53,7 +55,7 @@ const App = () => {
 
   const addGrade = () => {
     if (course.trim() === '' || grade.trim() === '') {
-      Swal.fire('Error', 'Please enter both course and grade.', 'error'); // SweetAlert
+      Swal.fire('Error', 'Input fields should not be empty!', 'error'); // SweetAlert
       return;
     }
 
@@ -140,27 +142,27 @@ const App = () => {
 
   return (
     <div className="container">
-    <div className="header">
-      <h1 style={{ color: 'white' }}>Student Grade Average Calculator</h1>
-      <img src={logo} alt="Logo" className="logo" />
-    </div>
-    <div className="dropdown-container">
-    <DropdownButton id="dropdown1" title={dropdown1Title} className="dropdown-button">
-  <Dropdown.Item onClick={() => handleDropdown1Click('Action 1')}>Action 1</Dropdown.Item>
-  <Dropdown.Item onClick={() => handleDropdown1Click('Action 2')}>Action 2</Dropdown.Item>
-  <Dropdown.Item onClick={() => handleDropdown1Click('Action 3')}>Action 3</Dropdown.Item>
-</DropdownButton>
-<DropdownButton id="dropdown2" title={dropdown2Title} className="dropdown-button">
-  <Dropdown.Item onClick={() => handleDropdown2Click('Option 1')}>Option 1</Dropdown.Item>
-  <Dropdown.Item onClick={() => handleDropdown2Click('Option 2')}>Option 2</Dropdown.Item>
-  <Dropdown.Item onClick={() => handleDropdown2Click('Option 3')}>Option 3</Dropdown.Item>
-</DropdownButton>
-<DropdownButton id="dropdown3" title={dropdown3Title} className="dropdown-button">
-  <Dropdown.Item onClick={() => handleDropdown3Click('Choice 1')}>Choice 1</Dropdown.Item>
-  <Dropdown.Item onClick={() => handleDropdown3Click('Choice 2')}>Choice 2</Dropdown.Item>
-  <Dropdown.Item onClick={() => handleDropdown3Click('Choice 3')}>Choice 3</Dropdown.Item>
-</DropdownButton>
-
+      <div className="header">
+        <h1 style={{ color: 'white' }}>Student Grade Average Calculator</h1>
+        <img src={logo} alt="Logo" className="logo" />
+      </div>
+      <div className="dropdown-container">
+        {/* Dropdown buttons */}
+        <DropdownButton id="dropdown1" title={dropdown1Title} className="dropdown-button">
+          <Dropdown.Item onClick={() => handleDropdown1Click('Action 1')}>Action 1</Dropdown.Item>
+          <Dropdown.Item onClick={() => handleDropdown1Click('Action 2')}>Action 2</Dropdown.Item>
+          <Dropdown.Item onClick={() => handleDropdown1Click('Action 3')}>Action 3</Dropdown.Item>
+        </DropdownButton>
+        <DropdownButton id="dropdown2" title={dropdown2Title} className="dropdown-button">
+          <Dropdown.Item onClick={() => handleDropdown2Click('Option 1')}>Option 1</Dropdown.Item>
+          <Dropdown.Item onClick={() => handleDropdown2Click('Option 2')}>Option 2</Dropdown.Item>
+          <Dropdown.Item onClick={() => handleDropdown2Click('Option 3')}>Option 3</Dropdown.Item>
+        </DropdownButton>
+        <DropdownButton id="dropdown3" title={dropdown3Title} className="dropdown-button">
+          <Dropdown.Item onClick={() => handleDropdown3Click('Choice 1')}>Choice 1</Dropdown.Item>
+          <Dropdown.Item onClick={() => handleDropdown3Click('Choice 2')}>Choice 2</Dropdown.Item>
+          <Dropdown.Item onClick={() => handleDropdown3Click('Choice 3')}>Choice 3</Dropdown.Item>
+        </DropdownButton>
       </div>
       <div className="input-columns">
         <div className="column">
@@ -213,11 +215,11 @@ const App = () => {
       </button>
       {gpa !== 0 && (
         <div>
-          <h2>GPA: {gpa}</h2>
-          <p>Total Credits: {totalCredits}</p>
-          <p>Total Grade Points: {totalGradePoints}</p>
-          <p>Dean's List: {deansList}</p>
-          <p>Remarks: {remarks}</p>
+          <h2 style={{ color: 'white' }}>GPA: {gpa}</h2>
+          <p style={{ color: 'white' }}>Total Credits: {totalCredits}</p>
+          <p style={{ color: 'white' }}>Total Grade Points: {totalGradePoints}</p>
+          <p style={{ color: 'white' }}>Dean's List: {deansList}</p>
+          <p style={{ color: 'white' }}>Remarks: {remarks}</p>
         </div>
       )}
     </div>
