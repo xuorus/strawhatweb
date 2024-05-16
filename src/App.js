@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button } from 'react-bootstrap';
+import { Button, Dropdown, DropdownButton } from 'react-bootstrap';
 import { db } from './firebaseConfig';
 import { push, ref, set } from 'firebase/database';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -9,6 +9,8 @@ import './App.css';
 
 const App = () => {
   const [grades, setGrades] = useState([]);
+  const [name, setName] = useState('');
+  const [id, setId] = useState('');
   const [course, setCourse] = useState('');
   const [grade, setGrade] = useState('');
   const [totalCredits, setTotalCredits] = useState(0);
@@ -48,21 +50,23 @@ const App = () => {
   const saveData = () => {
     const newDataRef = ref(db, 'grades');
     const newGradeRef = push(newDataRef);
-  
+
     const dataToSave = {
+      name,
+      id,
       grades,
       gpa,
       deansList,
       remarks,
     };
-  
+
     set(newGradeRef, dataToSave);
     Swal.fire('Success', 'Data saved successfully!', 'success'); // SweetAlert
     setTotalCredits(0);
     setTotalGradePoints(0);
     setGpa(0);
   };
-  
+
   const calculateGPA = () => {
     if (grades.length === 0) {
       Swal.fire('Error', 'Please add at least one grade.', 'error'); // SweetAlert
@@ -73,7 +77,7 @@ const App = () => {
     let totalGradePoints = 0;
 
     grades.forEach((grade) => {
-      const credit = 3; 
+      const credit = 3;
       const gradePoint = parseFloat(grade.grade);
 
       if (!isNaN(gradePoint)) {
@@ -120,22 +124,53 @@ const App = () => {
   return (
     <div className="container">
       <h1>Student Grade Average Calculator</h1>
-      <div>
-        <label>Course: </label>
-        <input type="text" value={course} onChange={(e) => setCourse(e.target.value)} />
+      <div className="dropdown-container">
+        <DropdownButton id="dropdown-basic-button" title="Dropdown 1">
+          <Dropdown.Item href="#/action-1">Action 1</Dropdown.Item>
+          <Dropdown.Item href="#/action-2">Action 2</Dropdown.Item>
+          <Dropdown.Item href="#/action-3">Action 3</Dropdown.Item>
+        </DropdownButton>
+        <DropdownButton id="dropdown-basic-button" title="Dropdown 2">
+          <Dropdown.Item href="#/action-1">Action 1</Dropdown.Item>
+          <Dropdown.Item href="#/action-2">Action 2</Dropdown.Item>
+          <Dropdown.Item href="#/action-3">Action 3</Dropdown.Item>
+        </DropdownButton>
+        <DropdownButton id="dropdown-basic-button" title="Dropdown 3">
+          <Dropdown.Item href="#/action-1">Action 1</Dropdown.Item>
+          <Dropdown.Item href="#/action-2">Action 2</Dropdown.Item>
+          <Dropdown.Item href="#/action-3">Action 3</Dropdown.Item>
+        </DropdownButton>
       </div>
-      <div>
-        <label>Grade: </label>
-        <input type="text" value={grade} onChange={handleGradeChange} />
+      <div className="input-columns">
+        <div className="column">
+          <div className="input-container">
+            <label>Name: </label>
+            <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
+          </div>
+          <div className="input-container">
+            <label>ID Number: </label>
+            <input type="text" value={id} onChange={(e) => setId(e.target.value)} />
+          </div>
+        </div>
+        <div className="column">
+          <div className="input-container">
+            <label>Course: </label>
+            <input type="text" value={course} onChange={(e) => setCourse(e.target.value)} />
+          </div>
+          <div className="input-container">
+            <label>Grade: </label>
+            <input type="text" value={grade} onChange={handleGradeChange} />
+          </div>
+        </div>
       </div>
       <Button onClick={addGrade} variant="primary">
         <FontAwesomeIcon icon={faPlus} /> Add Grade
-      </Button>{''}
+      </Button>{' '}
       <Button onClick={saveData} variant="success">
         <FontAwesomeIcon icon={faSave} /> Save Grade
-      </Button>{''}
+      </Button>
       <hr />
-      <table>
+      <table className="grades-table">
         <thead>
           <tr>
             <th>Course</th>
