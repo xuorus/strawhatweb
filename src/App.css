@@ -1,9 +1,17 @@
+body {
+  background-image: url('../src/images/bg.png');
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
 .container {
   margin: 20px auto;
   padding: 20px;
   border: 2px solid #000000;
   border-radius: 5px;
   max-width: 600px;
+  background-color: #0b1933;
 }
 
 .dropdown-container {
@@ -54,8 +62,8 @@ button {
   margin-top: 10px;
   margin-right: 5px;
   padding: 10px 20px;
-  background-color: #007bff;
-  color: #fff;
+  background-color: #fcb414;
+  color: #000000;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -66,9 +74,9 @@ button:hover {
 }
 
 h1 {
-  text-align: center; /* Center the text */
+  text-align: center;
 }
 
 h2 {
-  text-align: center; /* Center the text */
+  text-align: center;
 }

@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSave, faCalculator, faPlus } from '@fortawesome/free-solid-svg-icons';
 import Swal from 'sweetalert2'; // Import SweetAlert
 import './App.css';
+import logo from './images/logo.png';
 
 const App = () => {
   const [grades, setGrades] = useState([]);
@@ -45,6 +46,7 @@ const App = () => {
     setGrades(newGrades);
     setCourse('');
     setGrade('');
+
   };
 
   const saveData = () => {
@@ -123,7 +125,12 @@ const App = () => {
 
   return (
     <div className="container">
-      <h1>Student Grade Average Calculator</h1>
+      <h1 style = {{color: 'white'}}>Student Grade Average Calculator</h1>
+      <img
+        src={logo}
+        alt="Logo"
+        className="logo" style ={{width: 'auto', height: 'auto'}}
+      />
       <div className="dropdown-container">
         <DropdownButton id="dropdown-basic-button" title="Dropdown 1">
           <Dropdown.Item href="#/action-1">Action 1</Dropdown.Item>
@@ -144,21 +151,21 @@ const App = () => {
       <div className="input-columns">
         <div className="column">
           <div className="input-container">
-            <label>Name: </label>
+            <label style = {{color: 'white'}}>Name: </label>
             <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
           </div>
           <div className="input-container">
-            <label>ID Number: </label>
+            <label style = {{color: 'white'}}>ID Number: </label>
             <input type="text" value={id} onChange={(e) => setId(e.target.value)} />
           </div>
         </div>
         <div className="column">
           <div className="input-container">
-            <label>Course: </label>
+            <label style = {{color: 'white'}}>Course: </label>
             <input type="text" value={course} onChange={(e) => setCourse(e.target.value)} />
           </div>
           <div className="input-container">
-            <label>Grade: </label>
+            <label style = {{color: 'white'}}>Grade: </label>
             <input type="text" value={grade} onChange={handleGradeChange} />
           </div>
         </div>
@@ -180,8 +187,8 @@ const App = () => {
         <tbody>
           {grades.map((grade, index) => (
             <tr key={index}>
-              <td>{grade.course}</td>
-              <td>{grade.grade}</td>
+              <td style = {{color: 'white'}}>{grade.course}</td>
+              <td style = {{color: 'white'}}>{grade.grade}</td>
             </tr>
           ))}
         </tbody>
