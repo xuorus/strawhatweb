@@ -7,6 +7,7 @@ import { faSave, faCalculator, faPlus } from '@fortawesome/free-solid-svg-icons'
 import Swal from 'sweetalert2'; // Import SweetAlert
 import './App.css';
 import logo from './images/logo.png';
+import Form from 'react-bootstrap/Form';
 
 const App = () => {
   const [grades, setGrades] = useState([]);
@@ -19,23 +20,6 @@ const App = () => {
   const [gpa, setGpa] = useState(0);
   const [deansList, setDeansList] = useState('');
   const [remarks, setRemarks] = useState('');
-
-
-  const [dropdown1Title, setDropdown1Title] = useState('Dropdown 1');
-  const [dropdown2Title, setDropdown2Title] = useState('Dropdown 2');
-  const [dropdown3Title, setDropdown3Title] = useState('Dropdown 3');
-
-  const handleDropdown1Click = (title) => {
-    setDropdown1Title(title);
-  };
-
-  const handleDropdown2Click = (title) => {
-    setDropdown2Title(title);
-  };
-
-  const handleDropdown3Click = (title) => {
-    setDropdown3Title(title);
-  };
 
   useEffect(() => {
     fetchData();
@@ -147,22 +131,22 @@ const App = () => {
         <img src={logo} alt="Logo" className="logo" />
       </div>
       <div className="dropdown-container">
-        {/* Dropdown buttons */}
-        <DropdownButton id="dropdown1" title={dropdown1Title} className="dropdown-button">
-          <Dropdown.Item onClick={() => handleDropdown1Click('Action 1')}>Action 1</Dropdown.Item>
-          <Dropdown.Item onClick={() => handleDropdown1Click('Action 2')}>Action 2</Dropdown.Item>
-          <Dropdown.Item onClick={() => handleDropdown1Click('Action 3')}>Action 3</Dropdown.Item>
-        </DropdownButton>
-        <DropdownButton id="dropdown2" title={dropdown2Title} className="dropdown-button">
-          <Dropdown.Item onClick={() => handleDropdown2Click('Option 1')}>Option 1</Dropdown.Item>
-          <Dropdown.Item onClick={() => handleDropdown2Click('Option 2')}>Option 2</Dropdown.Item>
-          <Dropdown.Item onClick={() => handleDropdown2Click('Option 3')}>Option 3</Dropdown.Item>
-        </DropdownButton>
-        <DropdownButton id="dropdown3" title={dropdown3Title} className="dropdown-button">
-          <Dropdown.Item onClick={() => handleDropdown3Click('Choice 1')}>Choice 1</Dropdown.Item>
-          <Dropdown.Item onClick={() => handleDropdown3Click('Choice 2')}>Choice 2</Dropdown.Item>
-          <Dropdown.Item onClick={() => handleDropdown3Click('Choice 3')}>Choice 3</Dropdown.Item>
-        </DropdownButton>
+
+        <Form.Select aria-label="Default select example">
+      <option>Choose Year Level</option>
+      <option value="1">1st Year</option>
+      <option value="2">2nd Year</option>
+      <option value="3">3rd Year</option>
+      <option value="3">4th Year</option>
+    </Form.Select>
+
+    <Form.Select aria-label="Default select example">
+      <option>Select Academic Term</option>
+      <option value="1">First Semester</option>
+      <option value="2">Second Semester</option>
+    </Form.Select>
+
+    <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder='Academic Year' d style={{ padding: '8px', boxSizing: 'border-box' }}/>
       </div>
       <div className="input-columns">
         <div className="column">
