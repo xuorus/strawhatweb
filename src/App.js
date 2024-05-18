@@ -31,16 +31,36 @@ const App = () => {
       const snapshot = await db.ref('grades').once('value');
       const data = snapshot.val();
       if (data) {
-        setGrades(Object.values(data));
+        const gradesArray = Object.keys(data).map(key => ({
+          ...data[key],
+          key: key
+        }));
+        setGrades(gradesArray);
       }
     } catch (error) {
       console.error('Error fetching data:', error);
     }
   };
 
+  const checkForExistingName = (name) => {
+    return grades.find(grade => grade.name.toLowerCase() === name.toLowerCase());
+  };
+
+  useEffect(() => {
+    const existingEntry = checkForExistingName(name);
+
+    if (existingEntry) {
+      setId(existingEntry.id);
+      setGrades(existingEntry.grades);
+      setGpa(existingEntry.gpa);
+      setDeansList(existingEntry.deansList);
+      setRemarks(existingEntry.remarks);
+    }
+  }, [name]);
+
   const addGrade = () => {
     if (course.trim() === '' || grade.trim() === '') {
-      Swal.fire('Error', 'Input fields should not be empty!', 'error'); // SweetAlert
+      Swal.fire('Error', 'Input fields should not be empty!', 'error');
       return;
     }
 
@@ -48,10 +68,21 @@ const App = () => {
     setGrades(newGrades);
     setCourse('');
     setGrade('');
-
   };
 
-  const saveData = () => {
+  const saveData = async () => {
+    const existingEntry = checkForExistingName(name);
+
+    if (existingEntry) {
+      Swal.fire('Error', 'Name already exists. Data populated with existing record.', 'error');
+      setId(existingEntry.id);
+      setGrades(existingEntry.grades);
+      setGpa(existingEntry.gpa);
+      setDeansList(existingEntry.deansList);
+      setRemarks(existingEntry.remarks);
+      return;
+    }
+
     const newDataRef = ref(db, 'grades');
     const newGradeRef = push(newDataRef);
 
@@ -64,16 +95,21 @@ const App = () => {
       remarks,
     };
 
-    set(newGradeRef, dataToSave);
-    Swal.fire('Success', 'Data saved successfully!', 'success'); // SweetAlert
-    setTotalCredits(0);
-    setTotalGradePoints(0);
-    setGpa(0);
+    try {
+      await set(newGradeRef, dataToSave);
+      Swal.fire('Success', 'Data saved successfully!', 'success');
+      setTotalCredits(0);
+      setTotalGradePoints(0);
+      setGpa(0);
+    } catch (error) {
+      Swal.fire('Error', 'Failed to save data.', 'error');
+      console.error('Error saving data:', error);
+    }
   };
 
   const calculateGPA = () => {
     if (grades.length === 0) {
-      Swal.fire('Error', 'Please add at least one grade.', 'error'); // SweetAlert
+      Swal.fire('Error', 'Please add at least one grade.', 'error');
       return;
     }
 
@@ -95,21 +131,18 @@ const App = () => {
     setTotalGradePoints(totalGradePoints);
     setGpa(gpa.toFixed(2));
 
-    // Determine Dean's List status
     if (gpa >= 1.0 && gpa <= 1.75) {
       setDeansList('Yes');
     } else {
       setDeansList('No');
     }
 
-    // Determine Remarks
     if (gpa >= 1.0 && gpa <= 3.0) {
       setRemarks('Passed');
     } else {
       setRemarks('Failed');
     }
 
-    // Filter out grades that have been used for GPA calculation
     const filteredGrades = grades.filter((grade) => parseFloat(grade.grade) === 0);
     setGrades(filteredGrades);
   };
@@ -117,14 +150,14 @@ const App = () => {
   const handleGradeChange = (e) => {
     const value = e.target.value;
     if (isNaN(value)) {
-      Swal.fire('Error', 'Invalid Input', 'error'); // SweetAlert
+      Swal.fire('Error', 'Invalid Input', 'error');
       e.target.style.borderColor = 'red';
     } else {
-      e.target.style.borderColor = ''; // Reset border color
+      e.target.style.borderColor = '';
       setGrade(value);
     }
   };
-
+  
   return (
     <div className="container">
       <div className="header">
