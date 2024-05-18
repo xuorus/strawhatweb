@@ -11,6 +11,7 @@ import Form from 'react-bootstrap/Form';
 
 const App = () => {
   const [grades, setGrades] = useState([]);
+  const [acad, setAcad] = useState();
   const [name, setName] = useState('');
   const [id, setId] = useState('');
   const [course, setCourse] = useState('');
@@ -146,7 +147,7 @@ const App = () => {
       <option value="2">Second Semester</option>
     </Form.Select>
 
-    <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder='Academic Year' d style={{ padding: '8px', boxSizing: 'border-box' }}/>
+    <input type="text" value={acad} onChange={(e) => setAcad(e.target.value)} placeholder='Academic Year' style={{ padding: '8px', boxSizing: 'border-box' }}/>
       </div>
       <div className="input-columns">
         <div className="column">
