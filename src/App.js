@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Button, Dropdown, DropdownButton, DropdownItem } from 'react-bootstrap';
 import { db } from './firebaseConfig';
 import { push, ref, set } from 'firebase/database';
@@ -11,7 +11,7 @@ import Form from 'react-bootstrap/Form';
 
 const App = () => {
   const [grades, setGrades] = useState([]);
-  const [acad, setAcad] = useState();
+  const [acad, setAcad] = useState('');
   const [name, setName] = useState('');
   const [id, setId] = useState('');
   const [course, setCourse] = useState('');
@@ -42,21 +42,20 @@ const App = () => {
     }
   };
 
-  const checkForExistingName = (name) => {
-    return grades.find(grade => grade.name.toLowerCase() === name.toLowerCase());
-  };
+  const checkForExistingEntry = useCallback((name, id) => {
+    if (!name || !id) return undefined;
+    return grades.find(grade => grade.name?.toLowerCase() === name.toLowerCase() && grade.id === id);
+  }, [grades]);
 
   useEffect(() => {
-    const existingEntry = checkForExistingName(name);
-
+    const existingEntry = checkForExistingEntry(name, id);
     if (existingEntry) {
-      setId(existingEntry.id);
       setGrades(existingEntry.grades);
       setGpa(existingEntry.gpa);
       setDeansList(existingEntry.deansList);
       setRemarks(existingEntry.remarks);
     }
-  }, [name]);
+  }, [name, id, checkForExistingEntry]);
 
   const addGrade = () => {
     if (course.trim() === '' || grade.trim() === '') {
@@ -71,20 +70,7 @@ const App = () => {
   };
 
   const saveData = async () => {
-    const existingEntry = checkForExistingName(name);
-
-    if (existingEntry) {
-      Swal.fire('Error', 'Name already exists. Data populated with existing record.', 'error');
-      setId(existingEntry.id);
-      setGrades(existingEntry.grades);
-      setGpa(existingEntry.gpa);
-      setDeansList(existingEntry.deansList);
-      setRemarks(existingEntry.remarks);
-      return;
-    }
-
-    const newDataRef = ref(db, 'grades');
-    const newGradeRef = push(newDataRef);
+    const existingEntry = checkForExistingEntry(name, id);
 
     const dataToSave = {
       name,
@@ -96,8 +82,19 @@ const App = () => {
     };
 
     try {
-      await set(newGradeRef, dataToSave);
-      Swal.fire('Success', 'Data saved successfully!', 'success');
+      if (existingEntry) {
+        // Update the existing entry
+        const entryRef = ref(db, `grades/${existingEntry.key}`);
+        await set(entryRef, dataToSave);
+        Swal.fire('Success', 'Data updated successfully!', 'success');
+      } else {
+        // Create a new entry
+        const newDataRef = ref(db, 'grades');
+        const newGradeRef = push(newDataRef);
+        await set(newGradeRef, dataToSave);
+        Swal.fire('Success', 'Data saved successfully!', 'success');
+      }
+
       setTotalCredits(0);
       setTotalGradePoints(0);
       setGpa(0);
@@ -167,39 +164,39 @@ const App = () => {
       <div className="dropdown-container">
 
         <Form.Select aria-label="Default select example">
-      <option>Choose Year Level</option>
-      <option value="1">1st Year</option>
-      <option value="2">2nd Year</option>
-      <option value="3">3rd Year</option>
-      <option value="3">4th Year</option>
-    </Form.Select>
+          <option>Choose Year Level</option>
+          <option value="1">1st Year</option>
+          <option value="2">2nd Year</option>
+          <option value="3">3rd Year</option>
+          <option value="4">4th Year</option>
+        </Form.Select>
 
-    <Form.Select aria-label="Default select example">
-      <option>Select Academic Term</option>
-      <option value="1">First Semester</option>
-      <option value="2">Second Semester</option>
-    </Form.Select>
+        <Form.Select aria-label="Default select example">
+          <option>Select Academic Term</option>
+          <option value="1">First Semester</option>
+          <option value="2">Second Semester</option>
+        </Form.Select>
 
-    <input type="text" value={acad} onChange={(e) => setAcad(e.target.value)} placeholder='Academic Year' style={{ padding: '8px', boxSizing: 'border-box' }}/>
+        <input type="text" value={acad} onChange={(e) => setAcad(e.target.value)} placeholder='Academic Year' style={{ padding: '8px', boxSizing: 'border-box' }} />
       </div>
       <div className="input-columns">
         <div className="column">
           <div className="input-container">
-            <label style = {{color: 'white'}}>Name: </label>
+            <label style={{ color: 'white' }}>Name: </label>
             <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
           </div>
           <div className="input-container">
-            <label style = {{color: 'white'}}>ID Number: </label>
+            <label style={{ color: 'white' }}>ID Number: </label>
             <input type="text" value={id} onChange={(e) => setId(e.target.value)} />
           </div>
         </div>
         <div className="column">
           <div className="input-container">
-            <label style = {{color: 'white'}}>Course: </label>
+            <label style={{ color: 'white' }}>Course: </label>
             <input type="text" value={course} onChange={(e) => setCourse(e.target.value)} />
           </div>
           <div className="input-container">
-            <label style = {{color: 'white'}}>Grade: </label>
+            <label style={{ color: 'white' }}>Grade: </label>
             <input type="text" value={grade} onChange={handleGradeChange} />
           </div>
         </div>
@@ -221,8 +218,8 @@ const App = () => {
         <tbody>
           {grades.map((grade, index) => (
             <tr key={index}>
-              <td style = {{color: 'white'}}>{grade.course}</td>
-              <td style = {{color: 'white'}}>{grade.grade}</td>
+              <td style={{ color: 'white' }}>{grade.course}</td>
+              <td style={{ color: 'white' }}>{grade.grade}</td>
             </tr>
           ))}
         </tbody>
