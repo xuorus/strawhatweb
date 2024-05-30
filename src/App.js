@@ -21,6 +21,7 @@ const App = () => {
   const [gpa, setGpa] = useState(0);
   const [deansList, setDeansList] = useState('');
   const [remarks, setRemarks] = useState('');
+  const [password, setPassword] = useState(''); // New state for password
 
   useEffect(() => {
     fetchData();
@@ -75,10 +76,11 @@ const App = () => {
     const dataToSave = {
       name,
       id,
+      password, // Include password in the data
       grades,
       gpa,
       deansList,
-      remarks,
+      remarks
     };
 
     try {
@@ -188,6 +190,10 @@ const App = () => {
           <div className="input-container">
             <label style={{ color: 'white' }}>ID Number: </label>
             <input type="text" value={id} onChange={(e) => setId(e.target.value)} />
+          </div>
+          <div className="input-container">
+            <label style={{ color: 'white' }}>Password: </label> {/* New password input */}
+            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
           </div>
         </div>
         <div className="column">
