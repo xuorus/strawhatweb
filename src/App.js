@@ -238,11 +238,30 @@ const App = () => {
         <div>
           <h2 style={{ color: 'white' }}>GPA: {gpa}</h2>
           <p style={{ color: 'white' }}>Total Credits: {totalCredits}</p>
-          <p style={{ color: 'white' }}>Total Grade Points: {totalGradePoints}</p>
           <p style={{ color: 'white' }}>Dean's List: {deansList}</p>
           <p style={{ color: 'white' }}>Remarks: {remarks}</p>
         </div>
       )}
+      <div className="container" style={{ border: '2px solid white' }}>
+      <h2 style={{ color: 'white' }}>Developers</h2>
+        <div>
+          <span style={{ color: 'White' }}>Catindig, Ronan Reil S.</span>
+        </div>
+        <div>
+          <span style={{ color: 'White' }}>Pabillore, Justin P.</span>
+        </div>
+        <div>
+          <span style={{ color: 'White' }}>Salas, Nhed Ardy B.</span>
+        </div>
+        <div>
+          <span style={{ color: 'White' }}>Saburnido, Nov Flowyn S.</span>
+        </div>
+      </div>
+      <div className="container" style={{ border: '2px solid white' }}>
+        <div>
+          <span style={{ color: 'White' }}>BSIT 3R4</span>
+        </div>
+      </div>
     </div>
   );
 };
